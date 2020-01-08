@@ -1,0 +1,11 @@
+{{ $src := false }}
+{{ $domain := false }}
+{{ with site.Params.imgix }}
+  {{ with .domain }}
+    {{ $domain = printf "https://%s" . }}
+  {{ end }}
+{{ end }}
+{{ with $domain }}
+  {{ $src = printf "%s/%s" $domain (strings.TrimLeft "/" $) }}
+{{ end }}
+{{ return $src }}

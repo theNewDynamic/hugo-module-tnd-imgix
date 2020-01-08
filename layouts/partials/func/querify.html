@@ -1,0 +1,9 @@
+{{ $query_string := "?" }}
+{{ range $key, $value := . }}
+  {{ $delimit := "&" }}
+  {{ if eq $query_string "?" }}
+    {{ $delimit = "" }}
+  {{ end }}
+  {{ $query_string = printf "%s%s%s=%s" $query_string $delimit $key $value }}
+{{ end }}
+{{ return $query_string }}

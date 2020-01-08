@@ -1,0 +1,25 @@
+{{ $src := false }}
+{{ $title := false }}
+{{ $alt := false }}
+{{ with .Destination }}
+  {{ $src = . }}
+  {{ $transArgs := dict "src" . "width" 700 }}
+  {{ with partialCached "func/ImageTransform" $transArgs $transArgs }}
+    {{ $src = . }}
+  {{ end }}
+  {{ with $.Title }}
+    {{ $title = . }}
+  {{ end }}
+  {{ with $.Text }}
+    {{ $alt = . }}
+  {{ end }}
+{{ end }}
+<img 
+  src="{{ $src }}"
+  {{ with $alt }}
+    alt="{{ . }}"
+  {{ end }}
+  {{ with $title }}
+    title="{{ . }}"
+  {{ end }}
+/>

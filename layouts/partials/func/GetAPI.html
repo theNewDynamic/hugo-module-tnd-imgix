@@ -1,0 +1,5 @@
+{{ $return := false }}
+{{ with site.Data.imgix.api }}
+  {{ $return = . }}
+{{ end }}
+{{ return $return }}

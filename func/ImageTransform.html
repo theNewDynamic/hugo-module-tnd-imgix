@@ -6,7 +6,6 @@
     {{ $src = partialCached "func/GetSRC" . . }}
   {{ end }}
 {{ end }}
-
 {{ with $src }}
   {{ $api := partialCached "func/GetAPI" . "imgix_api" }}
   {{ $query := dict }}

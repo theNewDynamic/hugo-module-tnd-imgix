@@ -1,0 +1,21 @@
+{{/*
+  GetAPIMapping
+  Retrieve imgix API Mapping as stored in data.
+
+  @author @regisphilibert
+
+  @context Anything (.)
+
+  @access private
+
+  @return Map
+
+  @example - Go Template
+    {{ with partialCached "imgix/private/GetQuery" $ $ }}
+*/}}
+{{ $return := dict }}
+{{ with site.Data.imgix.api }}
+  {{ $return = . }}
+{{ end }}
+
+{{ return $return }}

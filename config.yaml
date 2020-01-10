@@ -1,0 +1,10 @@
+module:
+  hugoVersion:
+    min: "0.61.0"
+  mounts:
+  - source: partials
+    target: layouts/partials
+  - source: markup
+    target: layouts/_markup
+  - source: data
+    target: data

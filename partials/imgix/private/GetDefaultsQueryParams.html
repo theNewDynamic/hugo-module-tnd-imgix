@@ -1,0 +1,24 @@
+{{/*
+  GetDefaultsQueryParams
+  Retrieve the plugin's defaults query parameter as set in the site's Params.
+
+  @author @regisphilibert
+
+  @context Anything (.)
+
+  @access private
+
+  @return Map
+
+  @example - Go Template
+    {{ with partialCached "imgix/private/GetDefaultsQueryParams" $ "imgix_defaults" }}
+      {{ $defaults := . }}
+    {{ end }}
+*/}}
+
+{{ $defaults := dict }}
+{{ with site.Params.imgix.defaults }}
+  {{ $defaults = . }}
+{{ end }}
+
+{{ return $defaults }}

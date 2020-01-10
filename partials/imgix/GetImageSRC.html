@@ -1,0 +1,55 @@
+{{/*
+  GetImageSRC
+  Retrieve the correct img src based on a given string pointing to a file by adding the
+  project's imgix domain and imgix url API query corresponding to given arguments.
+
+  @author @regisphilibert
+
+  @use
+    - imgix/private/GetSRC
+    - imgix/private/GetQuery
+    - imgix/private/querify
+
+  @context Map
+            - String (.src)
+              ...String/Int (of any name)
+
+  @access public
+
+  @return String
+
+  @example - Go Template
+  {{ $transformArgs := dict "src" "/uploads/some-image.jpg" "width" 1024 "max-height" 15 }}
+  {{ with partialCached "imgix/GetImageSRC" $transformArgs $transformArgs }}
+    {{ $src = . }}
+  {{ end }}
+*/}}
+{{ $src := false }}
+{{ $args := dict }}
+{{ $return := false }}
+{{ if reflect.IsMap $ }}
+  {{ with .src }}
+    {{ $src = . }}
+    {{ range $key, $value := $ }}
+      {{ if ne $key "src" }}
+        {{ $args = $args | merge (dict $key $value) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ else if not (reflect.IsSlice $) }}
+  {{ $src = $ }}
+{{ end }}
+{{ with $src }}
+  {{ $src = partialCached "imgix/private/GetSRC" . . }}
+  {{ $return = $src }}
+  {{/* Remove src key from arguments */}}
+  {{ with $args }}
+    {{ with partialCached "imgix/private/GetQuery" . . }}
+      {{ with partialCached "imgix/private/querify" . . }}
+        {{ $return = printf "%s%s" $src . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $return }}

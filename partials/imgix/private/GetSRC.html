@@ -1,0 +1,29 @@
+{{/*
+  GetSRC
+  Take a string pointing to a file and turns it into the project's imgix domain file url 
+  unless the latter is already present in the string.
+
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access private
+
+  @return String
+
+  @example - Go Template
+    {{ $src = partialCached "imgix/private/GetSRC" "/uploads/something.jpg" "/uploads/something.jpg" }}
+*/}}
+{{ $src := false }}
+{{ $domain := false }}
+{{ with site.Params.imgix }}
+  {{ with .domain }}
+    {{ $domain = printf "https://%s" . }}
+  {{ end }}
+{{ end }}
+{{ if not (in $ site.Params.imgix.domain) }}
+  {{ with $domain }}
+    {{ $src = printf "%s/%s" $domain (strings.TrimLeft "/" $) }}
+  {{ end }}
+{{ end }}
+{{ return $src }}

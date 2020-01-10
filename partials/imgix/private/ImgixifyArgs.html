@@ -1,0 +1,33 @@
+{{/*
+  ImgixifyArgs
+  Take a map of key/value pairs and 
+  1. Replaces the keys by its imgix API equivalent (width > w, max-height > max-h etc...)
+  2. Stringifies the values.
+
+  @author @regisphilibert
+
+  @use
+    - imgix/private/GetAPIMapping
+
+  @context Map (args)
+
+  @access private
+
+  @return Map
+
+  @example - Go Template
+    {{ partial "path" context }}
+    {{ partialCached "path" context "variant" }}
+*/}}
+{{ $return := dict }}
+{{ $api := partialCached "imgix/private/GetAPIMapping" . "imgix_api" }}
+{{ range $key, $val := $ }}
+  {{ $outputKey := $key }}
+  {{/* If they key is found in the APIMapping data, we replace it. */}}
+  {{ with index $api $key }}
+    {{ $outputKey = . }}
+  {{ end }}
+  {{ $return = $return | merge (dict $outputKey (string $val)) }}
+{{ end }}
+
+{{ return $return }}

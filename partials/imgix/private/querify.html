@@ -1,0 +1,34 @@
+{{/*
+  querify
+  Hugo's `querify` function only taking string arguments, we cannot dynamicaly build a set of
+  key/value pairs to be natively querified.
+  See: https://github.com/gohugoio/hugo/issues/6735
+  This function takes a lone Map as argument and returns a querified strings.
+
+  @author @regisphilibert
+
+  @context Map (.)
+
+  @access private
+
+  @return String
+
+  @example - Go Template
+    {{ $queryArgs := dict "height" "25" "width" "55"}}
+    {{ with partialCached "imgix/private/querify" $queryArgs $queryArgs }}
+      {{ printf "https://a-url.com/%s" . }}
+    {{ end }}
+*/}}
+{{ $query_string := "?" }}
+{{ range $key, $value := . }}
+  {{/* By default the delimiter will be the ampersand */}}
+  {{ $delimit := "&" }}
+  {{/* If string is only "?" we can assume it has not been added to yet, 
+  so we're adding the first key/value pair and should not add any delimiter */}}
+  {{ if eq $query_string "?" }}
+    {{ $delimit = "" }}
+  {{ end }}
+  {{ $query_string = printf "%s%s%s=%s" $query_string $delimit $key $value }}
+{{ end }}
+
+{{ return $query_string }}

@@ -1,0 +1,37 @@
+{{/*
+  GetQuery
+  Build the proper imgix query from given set of key/value pairs.
+
+  @author @regisphilibert
+
+  @use
+    - imgix/private/ImgixifyArgs
+    - imgix/private/GetDefaultsQueryParams
+
+  @context Map
+
+  @access private
+
+  @example - Go Template
+    {{ $args := dict "width" 1200 "height" "450" }}
+    {{ with partialCached "imgix/private/GetQuery" $args $args }}
+      {{ $src = . }}
+    {{ end }}
+*/}}
+{{ $defaults := dict }}
+{{ $args := dict }}
+{{ if reflect.IsMap $ }}
+  {{ $args = $ }}
+  {{ with $args }}
+    {{ $args = partialCached "imgix/private/ImgixifyArgs" . . }}
+    {{ with partialCached "imgix/private/GetDefaultsQueryParams" $ "imgix_defaults" }} }}
+      {{ $defaults = partialCached "imgix/private/ImgixifyArgs" . . }}
+    {{ end }}
+    {{ with $defaults }}
+      {{ $args = merge $defaults $args }}
+    {{ end }}
+  {{ end }}  
+{{ end }}
+
+
+{{ return $args }}

@@ -40,14 +40,16 @@
   {{ $src = $ }}
 {{ end }}
 {{ with $src }}
-  {{ $src = partialCached "imgix/private/GetSRC" . . }}
-  {{ $return = $src }}
+  {{ $imgx_src := partialCached "imgix/private/GetSRC" . . }}
+  {{ $return = $imgx_src }}
   {{/* Remove src key from arguments */}}
   {{ with $args }}
+    {{ if partialCached "imgix/private/IsExtensionAllowed" $src $src }}
     {{ with partialCached "imgix/private/GetQuery" . . }}
-      {{ with partialCached "imgix/private/querify" . . }}
-        {{ $return = printf "%s%s" $src . }}
+      {{ with partialCached "imgix/private/querify" . .}}
+        {{ $return = printf "%s%s" $imgx_src . }}
       {{ end }}
+    {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}

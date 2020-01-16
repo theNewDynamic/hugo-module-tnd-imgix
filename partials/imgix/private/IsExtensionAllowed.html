@@ -1,0 +1,27 @@
+{{/*
+  IsExtensionAllowed
+  Test a given filepath's extension compared to allowed set.
+
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access public
+
+  @example - Go Template
+    {{ if partialCached "imgix/private/IsExtensionAllowed" $src $src }}
+      [do something]
+    {{ end }}
+*/}}
+{{ $return := false }}
+
+{{ $allowed := slice "jpg" "jpeg" "png" "gif" "webp" }}
+
+{{ with path.Ext $ }}
+  {{ $ext := . | lower | strings.TrimLeft "." }}
+  {{ if in $allowed $ext }}
+    {{ $return = true }}
+  {{ end }}
+{{ end }}
+
+{{ return $return }}

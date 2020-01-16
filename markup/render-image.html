@@ -4,7 +4,7 @@
 {{ with .Destination }}
   {{ $src = . }}
   {{ $transArgs := dict "src" . "width" 700 }}
-  {{ with partialCached "func/ImageTransform" $transArgs $transArgs }}
+  {{ with partialCached "imgix/GetImageSRC" $transArgs $transArgs }}
     {{ $src = . }}
   {{ end }}
   {{ with $.Title }}

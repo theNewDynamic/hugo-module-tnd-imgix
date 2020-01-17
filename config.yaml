@@ -6,5 +6,3 @@ module:
     target: layouts/partials
   - source: markup
     target: layouts/_markup
-  - source: data
-    target: data

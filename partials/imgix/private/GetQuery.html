@@ -12,6 +12,8 @@
 
   @access private
 
+  @return Map
+
   @example - Go Template
     {{ $args := dict "width" 1200 "height" "450" }}
     {{ with partialCached "imgix/private/GetQuery" $args $args }}

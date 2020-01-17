@@ -1,19 +1,43 @@
 # Imigx Hugo Module
 
-## Spec
-
 The component should be used on any project using IMGIX as an image CND and transforming API.
+
+## Requirements
+
+Requirements:
+- Go 1.12
+- Hugo 0.61.0
+
+
+## Installation
+
+1. [Init](https://gohugo.io/hugo-modules/use-modules/#initialize-a-new-module) your project as Hugo Module:
+
+```
+$: hugo mod init
+```
+
+Simply add the following map to your project's `config.yaml`:
+
+```
+module:
+  imports:
+  - path: github.com/theNewDynamic/hugo-module-imgix
+```
+
+## Usage
 
 ### GetImageSRC
 
-For now I can think of only one public returning partial: `GetImageSRC`.
-This would take the following argument:
+The only available public returning partial is `GetImageSRC`.
+This take for argument either:
 
-1. A file path | String (.)
-If the filepath does not include the IMGIX domain, we add it.
-2. A map | Map (.)
+- A file path | String (.)
+  With the above, the function returns the file path prefixed with the imgix domain.
+- A map | Map (.)
   src: A file path | String
   ...any other key will match a transformation from the imgix API and its value the property to be passed.
+  With the above, the function returns the file's imgix URI including the transformation query.
 
 #### Examples
 
@@ -33,29 +57,104 @@ Will produce: `https://imgix.project.net/uploads/an-image.jpg`
 ```
 Will produce: `https://imgix.project.net/uploads/an-image.jpg?w=1024&h=100`
 
-### Defaults
+### Settings
 
-User can add some sensible default transformation to the module. It will use them whenever a transformation query is passed on `GetImageSRC` function. If given key is passed, it will be overwritten. 
+Settings are added to the project's parameter under the `imgix` map:
+
+```yaml
+# config.yaml
+params:
+  imgix:
+    domain: imgix.project.net
+```
+
+#### Domain
+
+This is the imgix domain of your project. This will be used to transform file paths to imgix URIs.
 
 ### IMGIX API mapping.
 
-To abstract the Imgix terminology, most commonly used transformation keys should be interpreted by the module so user can use `width` and expect the function to find the proper Imgix key.
+To abstract the Imgix terminology, the module interprets commonly used transformation keys. User can therefor use `width` and expect the function to find the proper Imgix key (`w`).
 
-User can also add transformation key absent from the data file, the function will treat it as is.
+Key absent from mapping setting will be passed as is.
 
-With the following mapping:
+Default mapping is:
+```yaml
+  width: 'w'
+  height: 'h'
+  quality: 'q'
+  text: 'txt'
 ```
-width: 'w'
-height: 'h'
-quality: 'q'
+
+User can overwrite the above mapping with adding their own mapping keys to the imgix parameters.
+
+```yaml
+params:
+  imgix:
+    domain: imgix.project.net
+    mapping:
+      pixel: 'dpr'
 ```
 
-The following arguments:
+
+Given the example above, the following arguments...
 ```
 {{ $src := "/uploads/an-image.jpg" }}
-{{ $args := dict "src" $src "width" 1024 "height" 100 "ch" "Width,DPR" }}
+{{ $args := dict "src" $src "width" 1024 "pixel" 2 "ch" "Width,DPR" }}
 ```
 
-Will produce: `https://imgix.project.net/uploads/an-image.jpg?w=1024&h=100&ch=Width,DPR`
+Will produce: `https://imgix.[...]image.jpg?w=1024&dpr=2&ch=Width,DPR`
 
-The API mapping will be stored as a data file. This has the benefit of being extended by an homonymous data file stored on the project level while a site
+#### Defaults
+
+User can add some sensible default transformations to the module. It will use them whenever a transformation query is passed on `GetImageSRC` function. 
+If one of the default keys is passed, its value will overwrite default's.
+
+```
+params:
+  imgix:
+    defaults:
+      auto: format
+      ch: Width,DPR
+      q: 95
+```
+
+Defaults can be passed using the mapped arguments (`width`, `quality` etc...)
+
+### Safe integration
+
+To easily transition in or away from the module, and simplify image src references in your project you should create the following partials:
+
+```
+{{/*
+  GetSRC
+  Fetches Image's SRC using imgix module if available
+
+  @author @regisphilibert
+
+  @use
+    - imgix/GetImageSRC
+
+  @context Map
+      - String (.src)
+        ...String/Int (of any name)
+
+  @access public
+
+  @return String
+
+  @example - Go Template
+  {{ $transformArgs := dict "src" "/uploads/some-image.jpg" "width" 1024 "max-h" 15 }}
+  {{ with partialCached "GetSRC" $transformArgs $transformArgs }}
+    {{ $src = . }}
+  {{ end }}
+
+*/}}
+
+{{ $return := $ }}
+{{ if templates.Exists "partials/imgix/GetImageSRC.html" }}
+  {{ $return = partialCached "imgix/GetImageSRC" $ $ }}
+{{ end }}
+
+{{ return $return }}
+```

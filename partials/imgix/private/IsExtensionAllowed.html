@@ -6,7 +6,9 @@
 
   @context String (.)
 
-  @access public
+  @access private
+
+  @return Boolean
 
   @example - Go Template
     {{ if partialCached "imgix/private/IsExtensionAllowed" $src $src }}

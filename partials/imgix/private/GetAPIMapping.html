@@ -13,9 +13,13 @@
   @example - Go Template
     {{ with partialCached "imgix/private/GetQuery" $ $ }}
 */}}
-{{ $return := dict }}
-{{ with site.Data.imgix.api }}
-  {{ $return = . }}
+
+{{ $defaults := dict "width" "w" "height" "h" "quality" "q" "text" "txt" }}
+
+{{ $mapping := $defaults }}
+
+{{ with site.Params.imgix.mapping }}
+  {{ $mapping = merge $defaults . }}
 {{ end }}
 
-{{ return $return }}
+{{ return $mapping }}

@@ -23,7 +23,9 @@
 {{ end }}
 {{ if not (in $ site.Params.imgix.domain) }}
   {{ with $domain }}
-    {{ $src = printf "%s/%s" $domain (strings.TrimLeft "/" $) }}
+    {{ if (and (not (reflect.IsSlice $)) (not (reflect.IsMap $))) }}
+      {{ $src = printf "%s/%s" $domain (strings.TrimLeft "/" $) }}
+    {{ end }}
   {{ end }}
 {{ end }}
 {{ return $src }}

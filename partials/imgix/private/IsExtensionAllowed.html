@@ -17,7 +17,7 @@
 */}}
 {{ $return := false }}
 
-{{ $allowed := slice "jpg" "jpeg" "png" "gif" "webp" }}
+{{ $allowed := slice "jpg" "jp2" "jpeg" "png" "gif" "webp" "tif" }}
 
 {{ with path.Ext $ }}
   {{ $ext := . | lower | strings.TrimLeft "." }}

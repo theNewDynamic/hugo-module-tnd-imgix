@@ -1,5 +1,5 @@
 {{/*
-  GetSRC
+  GetImageImgixURL
   Take a string pointing to a file and turns it into the project's imgix domain file url 
   unless the latter is already present in the string.
 
@@ -12,7 +12,7 @@
   @return String
 
   @example - Go Template
-    {{ $src = partialCached "imgix/private/GetSRC" "/uploads/something.jpg" "/uploads/something.jpg" }}
+    {{ $src = partialCached "tnd-imgix/private/GetImageImgixURL" "/uploads/something.jpg" "/uploads/something.jpg" }}
 */}}
 {{ $src := false }}
 {{ $domain := false }}

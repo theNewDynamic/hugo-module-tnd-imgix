@@ -3,6 +3,6 @@ module:
     min: "0.61.0"
   mounts:
   - source: partials
-    target: layouts/partials
+    target: layouts/partials/tnd-imgix
   - source: markup
     target: layouts/_markup

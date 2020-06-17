@@ -15,7 +15,7 @@
 
   @example - Go Template
     {{ $queryArgs := dict "height" "25" "width" "55"}}
-    {{ with partialCached "imgix/private/querify" $queryArgs $queryArgs }}
+    {{ with partialCached "tnd-imgix/private/querify" $queryArgs $queryArgs }}
       {{ printf "https://a-url.com/%s" . }}
     {{ end }}
 */}}

@@ -6,9 +6,9 @@
   @author @regisphilibert
 
   @use
-    - imgix/private/GetSRC
-    - imgix/private/GetQuery
-    - imgix/private/querify
+    - tnd-imgix/private/GetSRC
+    - tnd-imgix/private/GetQuery
+    - tnd-imgix/private/querify
 
   @context Map
             - String (.src)
@@ -20,7 +20,7 @@
 
   @example - Go Template
   {{ $transformArgs := dict "src" "/uploads/some-image.jpg" "width" 1024 "max-height" 15 }}
-  {{ with partialCached "imgix/GetImageSRC" $transformArgs $transformArgs }}
+  {{ with partialCached "tnd-imgix/GetImageSRC" $transformArgs $transformArgs }}
     {{ $src = . }}
   {{ end }}
 */}}
@@ -40,13 +40,13 @@
   {{ $src = $ }}
 {{ end }}
 {{ with $src }}
-  {{ with $imgx_src := partialCached "imgix/private/GetSRC" . .  }}
+  {{ with $imgx_src := partialCached "tnd-imgix/private/GetImageImgixURL" . .  }}
     {{ $return = $imgx_src }}
     {{/* Remove src key from arguments */}}
     {{ with $args }}
-      {{ if partialCached "imgix/private/IsExtensionAllowed" $src $src }}
-      {{ with partialCached "imgix/private/GetQuery" . . }}
-        {{ with partialCached "imgix/private/querify" . .}}
+      {{ if partialCached "tnd-imgix/private/IsExtensionAllowed" $src $src }}
+      {{ with partialCached "tnd-imgix/private/GetQuery" . . }}
+        {{ with partialCached "tnd-imgix/private/querify" . .}}
           {{ $return = printf "%s%s" $imgx_src . }}
         {{ end }}
       {{ end }}

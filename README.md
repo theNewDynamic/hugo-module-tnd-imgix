@@ -107,7 +107,7 @@ Will produce: `https://imgix.[...]image.jpg?w=1024&dpr=2&ch=Width,DPR`
 
 #### Defaults
 
-User can add some sensible default transformations to the module. It will use them whenever a transformation query is passed on `GetImageSRC` function. 
+User can add some sensible default transformations to the module. It will use them whenever a transformation query is passed on `GetSRC` function. 
 If one of the default keys is passed, its value will overwrite default's.
 
 ```
@@ -133,7 +133,7 @@ To easily transition in or away from the module, and simplify image src referenc
   @author @regisphilibert
 
   @use
-    - imgix/GetImageSRC
+    - tnd-imgix/GetImageSRC
 
   @context Map
       - String (.src)
@@ -152,8 +152,8 @@ To easily transition in or away from the module, and simplify image src referenc
 */}}
 
 {{ $return := $ }}
-{{ if templates.Exists "partials/imgix/GetImageSRC.html" }}
-  {{ $return = partialCached "imgix/GetImageSRC" $ $ }}
+{{ if templates.Exists "partials/tnd-imgix/GetSRC.html" }}
+  {{ $return = partialCached "tnd-imgix/GetSRC" $ $ }}
 {{ end }}
 
 {{ return $return }}

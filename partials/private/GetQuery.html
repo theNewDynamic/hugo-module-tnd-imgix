@@ -5,8 +5,8 @@
   @author @regisphilibert
 
   @use
-    - imgix/private/ImgixifyArgs
-    - imgix/private/GetDefaultsQueryParams
+    - tnd-imgix/private/ImgixifyArgs
+    - tnd-imgix/private/GetDefaultsQueryParams
 
   @context Map
 
@@ -16,7 +16,7 @@
 
   @example - Go Template
     {{ $args := dict "width" 1200 "height" "450" }}
-    {{ with partialCached "imgix/private/GetQuery" $args $args }}
+    {{ with partialCached "tnd-imgix/private/GetQuery" $args $args }}
       {{ $src = . }}
     {{ end }}
 */}}
@@ -25,9 +25,9 @@
 {{ if reflect.IsMap $ }}
   {{ $args = $ }}
   {{ with $args }}
-    {{ $args = partialCached "imgix/private/ImgixifyArgs" . . }}
-    {{ with partialCached "imgix/private/GetDefaultsQueryParams" $ "imgix_defaults" }} }}
-      {{ $defaults = partialCached "imgix/private/ImgixifyArgs" . . }}
+    {{ $args = partialCached "tnd-imgix/private/ImgixifyArgs" . . }}
+    {{ with partialCached "tnd-imgix/private/GetDefaultsQueryParams" $ "imgix_defaults" }} }}
+      {{ $defaults = partialCached "tnd-imgix/private/ImgixifyArgs" . . }}
     {{ end }}
     {{ with $defaults }}
       {{ $args = merge $defaults $args }}

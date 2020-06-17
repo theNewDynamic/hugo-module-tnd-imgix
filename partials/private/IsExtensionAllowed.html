@@ -4,6 +4,9 @@
 
   @author @regisphilibert
 
+  @use
+   - "tnd-imgix/private/GetAllowedExtentions"
+
   @context String (.)
 
   @access private
@@ -17,7 +20,7 @@
 */}}
 {{ $return := false }}
 
-{{ $allowed := slice "jpg" "jp2" "jpeg" "png" "gif" "webp" "tif" }}
+{{ $allowed := partialCached "tnd-imgix/private/GetAllowedExtentions" . "tnd-imgix/private/GetAllowedExtentions" }}
 
 {{ with path.Ext $ }}
   {{ $ext := . | lower | strings.TrimLeft "." }}

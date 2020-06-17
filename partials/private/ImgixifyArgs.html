@@ -20,7 +20,7 @@
     {{ partialCached "path" context "variant" }}
 */}}
 {{ $return := dict }}
-{{ $api := partialCached "tnd-imgix/private/GetAPIMapping" . "imgix_api" }}
+{{ $api := partialCached "tnd-imgix/private/GetAPIMapping" . "tnd-imgix/private/GetAPIMapping" }}
 {{ range $key, $val := $ }}
   {{ $outputKey := $key }}
   {{/* If they key is found in the APIMapping data, we replace it. */}}

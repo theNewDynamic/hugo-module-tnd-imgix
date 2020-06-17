@@ -107,10 +107,10 @@ Will produce: `https://imgix.[...]image.jpg?w=1024&dpr=2&ch=Width,DPR`
 
 #### Defaults
 
-User can add some sensible default transformations to the module. It will use them whenever a transformation query is passed on `GetSRC` function. 
-If one of the default keys is passed, its value will overwrite default's.
+User can add some sensible default transformations to the module. It will use them whenever the `GetSRC` function is called. 
+If one of the default keys is passed, its value will overwrite the default's.
 
-```
+```yaml
 params:
   imgix:
     defaults:
@@ -120,6 +120,25 @@ params:
 ```
 
 Defaults can be passed using the mapped arguments (`width`, `quality` etc...)
+
+### Allowed Extensions
+
+You can define a list of extension for which the module will apply transformation with the `allowed_extensions` key.
+
+Defaults is as followed:
+```yaml
+params:
+  imgix:
+    allowed_extensions:
+    - jpg
+    - jp2
+    - jpeg
+    - png
+    - gif
+    - webp
+    - tif
+```
+The settings does not extends aforementioned defaults with user's own. In order to complement the defaults, you should copy/paste the above to your settings and append with new extensions.
 
 ### Safe integration
 

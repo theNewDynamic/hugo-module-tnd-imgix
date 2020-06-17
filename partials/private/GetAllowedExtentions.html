@@ -1,0 +1,19 @@
+{{/*
+  GetAllowedExtensions
+  Returns allowed extensions as defined by user or Module's defaults.
+
+  @author @regisphilibert
+
+  @context Any (.)
+
+  @access private
+
+  @example - Go Template
+  {{ $allowed := partialCached "tnd-imgix/GetAllowedExtensions" . "tnd-imgix/GetAllowedExtensions" }}
+*/}}
+{{ $allowed := slice "jpg" "jp2" "jpeg" "png" "gif" "webp" "tif" }}
+{{ with site.Params.imgix.allowed_extensions }}
+  {{ $allowed = . }}
+{{ end }}
+
+{{ return $allowed }}

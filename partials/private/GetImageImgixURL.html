@@ -9,13 +9,16 @@
 
   @access private
 
+  @use
+    - "private/GetImgixDomain"
+
   @return String
 
   @example - Go Template
     {{ $src = partialCached "tnd-imgix/private/GetImageImgixURL" "/uploads/something.jpg" "/uploads/something.jpg" }}
 */}}
 {{ $src := false }}
-{{ $domain := partial "tnd-imgix/private/GetImgixDomain" . }}
+{{ $domain := partialCached "tnd-imgix/private/GetImgixDomain" . "tnd-imgix/private/GetImgixDomain" }}
 {{ $isString := and (not (reflect.IsSlice $)) (not (reflect.IsMap $)) }}
 {{/* We only start logic if an imgix domain is found */}}
 {{ with $domain }}

@@ -1,3 +1,3 @@
-module github.com/theNewDynamic/hugo-module-imgix
+module github.com/theNewDynamic/hugo-module-tnd-imgix
 
-go 1.12
+go 1.14

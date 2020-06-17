@@ -18,7 +18,8 @@
 
 {{ $defaults := dict }}
 {{ with site.Params.imgix.defaults }}
-  {{ $defaults = . }}
+  {{/* We use merge to return an Interface struct of not a Param struct */}}
+  {{ $defaults = merge . dict }}
 {{ end }}
 
 {{ return $defaults }}

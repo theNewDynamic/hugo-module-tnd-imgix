@@ -20,20 +20,18 @@
       {{ $src = . }}
     {{ end }}
 */}}
-{{ $defaults := dict }}
 {{ $args := dict }}
 {{ if reflect.IsMap $ }}
   {{ $args = $ }}
   {{ with $args }}
-    {{ $args = partialCached "tnd-imgix/private/ImgixifyArgs" . . }}
-    {{ with partialCached "tnd-imgix/private/GetDefaultsQueryParams" $ "imgix_defaults" }} }}
-      {{ $defaults = partialCached "tnd-imgix/private/ImgixifyArgs" . . }}
+    {{ with partialCached "tnd-imgix/private/GetDefaultsQueryParams" $ "imgix_defaults" }}
+      {{/* If user, or module logic passes default query as $args, we do not bother to merge */}}
+      {{ if ne . $args }}
+        {{ $args = merge . $args }}
+      {{ end }}
     {{ end }}
-    {{ with $defaults }}
-      {{ $args = merge $defaults $args }}
-    {{ end }}
-  {{ end }}  
+    {{ $args = partialCached "tnd-imgix/private/ImgixifyArgs" $args $args }}
+  {{ end }}
 {{ end }}
-
 
 {{ return $args }}

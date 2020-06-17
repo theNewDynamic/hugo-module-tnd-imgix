@@ -37,11 +37,15 @@
     {{ end }}
   {{ end }}
 {{ else if not (reflect.IsSlice $) }}
+  {{/* Context is a string, we use it as $src */}}
   {{ $src = $ }}
+  {{/* For now we apply the default query (params.imgix.defaults) when user uses string (URL) for context.
+    If we add flexibility, we should test setting before applying the following: */}}
+  {{ $args = partialCached "tnd-imgix/private/GetDefaultsQueryParams" $ "imgix_defaults" }}
 {{ end }}
 {{ with $src }}
   {{/* See below if following returns false */}}
-  {{ with $imgx_src := partialCached "tnd-imgix/private/GetImageImgixURL" . .  }}
+  {{ with $imgx_src := partialCached "tnd-imgix/private/GetImageImgixURL" . . }}
     {{ $return = $imgx_src }}
     {{/* Remove src key from arguments */}}
     {{ with $args }}

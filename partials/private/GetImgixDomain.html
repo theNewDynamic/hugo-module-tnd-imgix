@@ -1,0 +1,20 @@
+{{/*
+  GetImigxDomain
+
+  @author @regisphilibert
+
+  @context Any (.)
+
+  @access private
+
+  @example - Go Template
+    {{ $domain := partialCached "tnd-imgix/private/GetImgixDomain" . "tnd-imgix/private/GetImgixDomain" }}
+*/}}
+{{ $domain := "" }}
+{{ with site.Params.imgix.domain }}
+  {{ $domain = printf "https://%s" . }}
+{{ else }}
+  {{/* We produce a warning */}}
+  {{ warnf "TND Imgix Module requires an imgix domain to be set. See https://github.com/theNewDynamic/hugo-module-tnd-imgix#settings"  }}
+{{ end }}
+{{ return $domain }}

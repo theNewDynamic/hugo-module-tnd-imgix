@@ -15,17 +15,24 @@
     {{ $src = partialCached "tnd-imgix/private/GetImageImgixURL" "/uploads/something.jpg" "/uploads/something.jpg" }}
 */}}
 {{ $src := false }}
-{{ $domain := false }}
-{{ with site.Params.imgix }}
-  {{ with .domain }}
-    {{ $domain = printf "https://%s" . }}
-  {{ end }}
-{{ end }}
-{{ if not (in $ site.Params.imgix.domain) }}
-  {{ with $domain }}
-    {{ if (and (not (reflect.IsSlice $)) (not (reflect.IsMap $))) }}
-      {{ $src = printf "%s/%s" $domain (strings.TrimLeft "/" $) }}
+{{ $domain := partial "tnd-imgix/private/GetImgixDomain" . }}
+{{ $isString := and (not (reflect.IsSlice $)) (not (reflect.IsMap $)) }}
+{{/* We only start logic if an imgix domain is found */}}
+{{ with $domain }}
+  {{/* Only if context is a string */}}
+  {{ if $isString }}
+    {{/* If imgix domain is already in context, we use it as is for $src */}}
+    {{ if in $ $domain }}
+      {{ $src = $ }}
+    {{ else }}
+      {{/* We don't want to process a non imgix and non relative URL.
+      At this point of our tests, if our context starts with an HTTP, it has to be an abosolute non imgix URL */}}
+      {{ $exit := eq (slicestr $ 0 4) "http" }}
+      {{ if not $exit }}
+        {{ $src = printf "%s/%s" $domain (strings.TrimLeft "/" $) }}
+      {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
+
 {{ return $src }}

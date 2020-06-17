@@ -40,6 +40,7 @@
   {{ $src = $ }}
 {{ end }}
 {{ with $src }}
+  {{/* See below if following returns false */}}
   {{ with $imgx_src := partialCached "tnd-imgix/private/GetImageImgixURL" . .  }}
     {{ $return = $imgx_src }}
     {{/* Remove src key from arguments */}}
@@ -52,6 +53,8 @@
       {{ end }}
       {{ end }}
     {{ end }}
+  {{ else }}
+    {{ $return = $src }}
   {{ end }}
 {{ end }}
 

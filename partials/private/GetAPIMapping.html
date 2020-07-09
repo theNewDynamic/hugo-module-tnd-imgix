@@ -17,8 +17,8 @@
 {{ $defaults := dict "width" "w" "height" "h" "quality" "q" "text" "txt" }}
 
 {{ $mapping := $defaults }}
-
-{{ with site.Params.imgix.mapping }}
+{{ $config := partialCached "tnd-imgix/private/GetConfig" "GetConfig" }}
+{{ with $config.mapping }}
   {{ $mapping = merge $defaults . }}
 {{ end }}
 

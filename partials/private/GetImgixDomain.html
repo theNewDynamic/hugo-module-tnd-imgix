@@ -11,7 +11,8 @@
     {{ $domain := partialCached "tnd-imgix/private/GetImgixDomain" . "tnd-imgix/private/GetImgixDomain" }}
 */}}
 {{ $domain := "" }}
-{{ with site.Params.imgix.domain }}
+{{ $config := partialCached "tnd-imgix/private/GetConfig" "GetConfig" }}
+{{ with $config.domain }}
   {{ $domain = printf "https://%s" . }}
 {{ else }}
   {{/* We produce a warning */}}

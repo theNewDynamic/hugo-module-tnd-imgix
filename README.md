@@ -79,8 +79,7 @@ params:
       q: 95
     allowed_extensions:
     - jpg
-    - jp2
-    - jpeg
+    - png
 ```
 
 #### Domain (required)

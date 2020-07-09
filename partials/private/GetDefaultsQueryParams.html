@@ -17,7 +17,8 @@
 */}}
 
 {{ $defaults := dict }}
-{{ with site.Params.imgix.defaults }}
+{{ $config := partialCached "tnd-imgix/private/GetConfig" "GetConfig" }}
+{{ with $config.defaults }}
   {{/* We use merge to return an Interface struct of not a Param struct */}}
   {{ $defaults = merge . dict }}
 {{ end }}

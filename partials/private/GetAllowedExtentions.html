@@ -12,7 +12,8 @@
   {{ $allowed := partialCached "tnd-imgix/GetAllowedExtensions" . "tnd-imgix/GetAllowedExtensions" }}
 */}}
 {{ $allowed := slice "jpg" "jp2" "jpeg" "png" "gif" "webp" "tif" }}
-{{ with site.Params.imgix.allowed_extensions }}
+{{ $config := partialCached "tnd-imgix/private/GetConfig" "GetConfig" }}
+{{ with $config.allowed_extensions }}
   {{ $allowed = . }}
 {{ end }}
 

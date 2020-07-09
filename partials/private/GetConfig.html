@@ -1,0 +1,27 @@
+{{/*
+  GetConfig
+  Retrieve the plugin's config set in the site's Params.
+
+  @author @regisphilibert
+
+  @context Anything (.)
+
+  @access private
+
+  @return Map
+
+  @example - Go Template
+    {{ with partialCached "tnd-imgix/private/GetConfig" "GetConfig" }}
+      {{ $config := . }}
+    {{ end }}
+*/}}
+{{ $config := dict }}
+{{ with site.Params.tnd_imgix }}
+  {{ $config = . }}
+{{ else }}
+  {{ with site.Params.imgix }}
+    {{ $config = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $config }}

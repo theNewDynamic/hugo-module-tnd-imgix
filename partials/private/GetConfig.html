@@ -16,10 +16,13 @@
     {{ end }}
 */}}
 {{ $config := dict }}
+{{ $warn_head := "\nHugo Module TND Imgix:\n" }}
+
 {{ with site.Params.tnd_imgix }}
   {{ $config = . }}
 {{ else }}
   {{ with site.Params.imgix }}
+    {{ warnf "%sModule settings should now be stored under `tnd_imgix` rather than the ambiguous `imgix`." $warn_head }}
     {{ $config = . }}
   {{ end }}
 {{ end }}

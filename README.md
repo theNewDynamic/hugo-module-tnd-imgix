@@ -43,11 +43,12 @@ This takes two types of arguments.
   With the above, the function returns the file's imgix URI including the transformation query.
 
 #### Examples
-
+```
 {{ $src := "/uploads/an-image.jpg" }}
 {{ with partial "tnd-imgix/GetSRC" $src }}
   {{ $src = . }}
 {{ end }}
+```
 
 Will produce: `https://imgix.project.net/uploads/an-image.jpg`
 
@@ -63,13 +64,13 @@ Will produce: `https://imgix.project.net/uploads/an-image.jpg?w=1024&h=100`
 
 ### Settings
 
-Settings are added to the project's parameter under the `imgix` map as show below.
+Settings are added to the project's parameter under the `tnd_imgix` map as show below.
 Keys are detailed below
 
 ```yaml
 # config.yaml
 params:
-  imgix:
+  tnd_imgix:
     domain: imgix.project.net
     mapping:
       pixel: 'dpr'
@@ -105,7 +106,7 @@ User can overwrite the above mapping with adding their own mapping keys to the i
 
 ```yaml
 params:
-  imgix:
+  tnd_imgix:
     mapping:
       pixel: 'dpr'
 ```
@@ -126,7 +127,7 @@ If one of the default keys is passed, its value will overwrite the default's.
 
 ```yaml
 params:
-  imgix:
+  tnd_imgix:
     defaults:
       auto: format
       ch: Width,DPR
@@ -143,7 +144,7 @@ This is to make sure no transformation is applied to a PDF for example.
 Defaults are as followed:
 ```yaml
 params:
-  imgix:
+  tnd_imgix:
     allowed_extensions:
     - jpg
     - jp2

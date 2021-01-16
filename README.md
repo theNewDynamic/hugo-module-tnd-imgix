@@ -155,3 +155,28 @@ params:
     - tif
 ```
 The settings does not extends aforementioned defaults with user's own. In order to complement the defaults, you should copy/paste the above to your settings and append with new extensions.
+
+## Markup
+
+With a tiny bit of work you can have imgix applied to images rendered through Markdown.
+
+```markdown
+![Picture of a guitar](/uploads/guitar.jpg "I love my guitar!")
+```
+
+This will make the above rendered as:
+
+```html
+<img src="https://my-domain.imgix.net/uploads/guitar.jpg?auto=format&ch=Width,DPR&q=95&w=700" alt="Picture of a guitar" title="I love my guitar!">
+```
+
+You'll need to:
+
+1. Make sure your project is indeed using [Goldmark](https://gohugo.io/getting-started/configuration-markup#goldmark) as Markdown renderer (by default it should).
+2. Create at the root of your project a `layouts/_default/render-image.html`
+3. Populate given file with your own HTML and a touch of GetSRC.  
+The module sports its own unused [template file](https://github.com/theNewDynamic/hugo-module-tnd-imgix/blob/master/markup/render-image.html) which you can use for reference.
+
+## theNewDynamic
+
+This project is maintained and love by [thenewDynamic](https://www.thenewdynamic.com).

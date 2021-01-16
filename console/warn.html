@@ -1,0 +1,17 @@
+{{/*
+  warn
+  Emits a warning using the module's Header.
+
+  @author @regisphilibert
+
+  @context String
+
+  @access public
+
+  @example - Go Template
+  {{ partial "tnd-snipcart/warn" $message }}
+*/}}
+{{ $header := "TND Module Imgix" }}
+{{ warnf "\n%s:\n%s" $header . }}
+
+{{ return true }}

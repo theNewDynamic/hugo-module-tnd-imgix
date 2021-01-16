@@ -1,15 +1,24 @@
+{{/*
+  Image Rendering
+  This template file is not used by the Module, it only serves as an example for users.
+
+  @author @regisphilibert
+*/}}
 {{ $src := false }}
 {{ $title := false }}
 {{ $alt := false }}
+{{/* If we have a .Destination, we can process everything. */}}
 {{ with .Destination }}
   {{ $src = . }}
-  {{ $transArgs := dict "src" . "width" 700 }}
-  {{ with partialCached "tnd-imgix/GetImageSRC" $transArgs $transArgs }}
+  {{ $args := dict "src" . "width" 700 }}
+  {{ with partialCached "tnd-imgix/GetSRC" $args $args }}
     {{ $src = . }}
   {{ end }}
+  {{/* If we have a .Title we use it */}}
   {{ with $.Title }}
     {{ $title = . }}
   {{ end }}
+  {{/* If we have a .Text we use it */}}
   {{ with $.Text }}
     {{ $alt = . }}
   {{ end }}

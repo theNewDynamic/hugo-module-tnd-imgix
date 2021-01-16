@@ -16,6 +16,6 @@
   {{ $domain = printf "https://%s" . }}
 {{ else }}
   {{/* We produce a warning */}}
-  {{ warnf "TND Imgix Module requires an imgix domain to be set. See https://github.com/theNewDynamic/hugo-module-tnd-imgix#settings"  }}
+  {{ partial "tnd-imgix/warn" "The Module requires an imgix domain to be set. See https://github.com/theNewDynamic/hugo-module-tnd-imgix#settings"  }}
 {{ end }}
 {{ return $domain }}

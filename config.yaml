@@ -4,5 +4,5 @@ module:
   mounts:
   - source: partials
     target: layouts/partials/tnd-imgix
-  - source: markup
-    target: layouts/_markup
+  - source: console
+    target: layouts/partials/tnd-imgix

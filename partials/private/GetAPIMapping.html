@@ -14,7 +14,7 @@
     {{ with partialCached "tnd-imgix/private/GetQuery" $ $ }}
 */}}
 
-{{ $defaults := dict "width" "w" "height" "h" "quality" "q" "text" "txt" }}
+{{ $defaults := dict "width" "w" "height" "h" "quality" "q" "text" "txt" "rotate" "rot" }}
 
 {{ $mapping := $defaults }}
 {{ $config := partialCached "tnd-imgix/private/GetConfig" "GetConfig" }}
